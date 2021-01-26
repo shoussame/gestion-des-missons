@@ -32,6 +32,7 @@ public class AppService implements AccService{
 		this.appRoleRepository = appRoleRepository;
 		this.appUserRepo = appUserRepo;
 		this.missionRestClient = missionRestClient;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
@@ -50,7 +51,7 @@ public class AppService implements AccService{
 	public void addRoleToUser(String username, String roleName) {
 		AppUser a = appUserRepo.findByUsername(username);
 		AppRole b = appRoleRepository.findByRoleName(roleName);
-		a.getRoles().add(b);
+		a.getAppRoles().add(b);
 	}
 
 	@Override

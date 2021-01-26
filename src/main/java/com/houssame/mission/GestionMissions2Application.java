@@ -29,8 +29,9 @@ public class GestionMissions2Application {
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+	/*
 	@Bean
-	CommandLineRunner start(AppRoleRepo roleRepo,AccService accService,
+	CommandLineRunner start(AppRoleRepo roleRepo,AppService accService,
 			ProfesseurRepo professeurRepo , MissionRepo missionRepo) {
 		return args -> {
 			accService.addUser(new AppUser("SofiaA", "sofiaPass", "AG", "Sofia", "sofia@gmail.com", "10/5/92","SECRETAIRE"));
@@ -72,6 +73,6 @@ public class GestionMissions2Application {
 			missionRepo.save(new Mission("01/02/01", "01/05/01", professeurRepo.findByUsername("HichamK")));
 			missionRepo.save(new Mission("01/03/01", "01/06/01", professeurRepo.findByUsername("AyoubT")));
 		};
-
-}
+	
+}*/
 }

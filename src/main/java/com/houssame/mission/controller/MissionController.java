@@ -20,7 +20,7 @@ import com.houssame.mission.entities.Mission;
 import com.houssame.mission.entities.Professeur;
 
 @RestController
-@CrossOrigin("http://localhost:8080")
+@CrossOrigin(origins ="http://localhost:8080", allowedHeaders = "*")
 public class MissionController {
 	private MissionRepo missionRepo;
 	private ProfesseurRepo client;
@@ -31,12 +31,14 @@ public class MissionController {
 	}
 	
 	    @GetMapping("/missions/profUsername/{username}")
+	    @RolesAllowed({"USER"})
 	    Collection<Mission> getMissions(@PathVariable(name="username") String username){
 	    	Professeur prof = client.findByUsername(username);
 	        Collection<Mission> mission = missionRepo.findByProfUsername(prof.getUsername());
 	        return mission;
 }
 	    @GetMapping("/missions")
+	    @RolesAllowed({"USER"})
 		  List<Mission> all() {
 		    return missionRepo.findAll();
 		  }
@@ -55,6 +57,7 @@ public class MissionController {
 		  // Single item
 
 		  @PostMapping("/missions/{id}")
+		  @RolesAllowed({"ADMIN","MODERATOR","PROFESSEUR"})
 		  Mission one(@PathVariable String id) throws Exception {
 			  
 		    return missionRepo.getOne(id);
@@ -65,6 +68,7 @@ public class MissionController {
 		    missionRepo.deleteById(id);
 		  }
 		  @PostMapping("/missions/update")
+		  @RolesAllowed({"ADMIN","MODERATOR","PROFESSEUR"})
 		  Mission replaceMission(@RequestBody Mission missionn) {
 
 		    return missionRepo.findById(missionn.getId())
@@ -82,6 +86,7 @@ public class MissionController {
 		      });
 		  }
 		  @PostMapping("missions/statut")
+		  @RolesAllowed({"USER"})
 		  Collection<Mission> findByStatut(boolean staut){
 			  return missionRepo.findByStatut(staut);
 		  }

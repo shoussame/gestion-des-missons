@@ -3,6 +3,8 @@ package com.houssame.mission.controller;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,21 +20,23 @@ import com.houssame.mission.entities.Professeur;
 
 
 @RestController
-@CrossOrigin("http://localhost:8080")
+@CrossOrigin(origins ="http://localhost:8080", allowedHeaders = "*")
 public class ProfesseurRestService {
 	private ProfesseurRepo profRepo;
 	private MissionRepo missionRestClient;
 
-	public ProfesseurRestService(ProfesseurRepo profRepo) {
+	public ProfesseurRestService(ProfesseurRepo profRepo,MissionRepo missionRestClient) {
 		super();
 		this.profRepo = profRepo;
 		this.missionRestClient = missionRestClient;
 	}
 	@GetMapping("/professeurs")
+	@RolesAllowed({"ADMIN","MODERATOR","PROFESSEUR"})
 	public List<Professeur> getProfesseus(){
 			return profRepo.findAll();
 	        }
 	@GetMapping("/professeurs/{username}")
+	@RolesAllowed({"ADMIN","MODERATOR","PROFESSEUR"})
 	public Professeur getProfesseurByUsername(@PathVariable(name="username") String username){
 			Collection<Mission> missions = missionRestClient.findByProfUsername(username);
 			Professeur prof = profRepo.findByUsername(username);
@@ -40,6 +44,7 @@ public class ProfesseurRestService {
 			return prof;
 	        }
 	@GetMapping("/professeur")
+	@RolesAllowed({"USER"})
 	public Professeur getProfByUsername(@RequestBody String username){
 			Collection<Mission> missions = missionRestClient.findByProfUsername(username);
 			Professeur prof = profRepo.findByUsername(username);
@@ -47,6 +52,7 @@ public class ProfesseurRestService {
 			return prof;
 	        }
 	@GetMapping("/professeur/{id}")
+	@RolesAllowed({"ADMIN","MODERATOR","PROFESSEUR"})
 	public Professeur getProfesseurById(@PathVariable(name="id") String id){
 		Professeur prof = profRepo.findProfesseurById(id);
 			Collection<Mission> missions = missionRestClient.findByProfUsername(prof.getUsername());

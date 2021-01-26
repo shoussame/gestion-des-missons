@@ -37,7 +37,7 @@ public class AppUser {
 	private String DateDeNaissance;
 	private String fonction;
 	@ManyToMany(fetch = FetchType.EAGER)
-	private Collection<AppRole> roles;
+	private Collection<AppRole> appRoles;
 	public AppUser(String username, String password, String nom, String prenom, String email, String dateDeNaissance) {
 		super();
 		this.username = username;
